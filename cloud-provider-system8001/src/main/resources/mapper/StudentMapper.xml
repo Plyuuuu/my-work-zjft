@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zjft.cloud.dao.StudentDao">
+
+    <!--====================自定义 Student 封装规则========================-->
+    <resultMap id="studentMap" type="com.zjft.cloud.pojo.Student">
+        <id column="id" property="id" jdbcType="INTEGER"/> <!--所有字母要大写-->
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="birthday" property="birthday" jdbcType="VARCHAR"/>
+        <result column="sex" property="sex" jdbcType="CHAR"/>
+    </resultMap>
+
+
+    <!--======================1、增=============================-->
+
+    <insert id="addStudent" parameterType="Map" useGeneratedKeys="true" keyProperty="id">
+        insert into student(id,name,birthday,sex) VALUES(#{id},#{name},#{birthday},#{sex});
+    </insert>
+
+
+    <!--======================2、删=============================-->
+
+    <delete id="delStudentById">
+        delete from student where id = #{id};
+    </delete>
+
+    <!--======================3、改=============================-->
+
+    <update id="modStudent">
+        update student set name = #{name},birthday = #{birthday},sex = #{sex} where id = #{id};
+    </update>
+
+    <!--======================4、查=============================-->
+
+    <select id="qryStudentAll" resultMap="studentMap" >
+        select id,name,birthday,sex
+        from student;
+    </select>
+
+    <select id="qryStudentById" resultMap="studentMap">
+        select id,name,birthday,sex
+        from student
+        where id = #{id};
+    </select>
+
+    <select id="qryStudentByName" resultMap="studentMap">
+        select id,name,birthday,sex
+        from student
+        where name = #{name};
+    </select>
+
+    <select id="qryStudentByLastName" resultMap="studentMap">
+        select id,name,birthday,sex
+        from student
+        where name = #{lastName%};
+    </select>
+
+    <select id="qryStudentBySex" resultMap="studentMap">
+        select id,name,birthday,sex
+        from student
+        where sex = #{sex};
+    </select>
+</mapper>

@@ -1,0 +1,26 @@
+server:
+  port: 9527
+
+
+spring:
+  application:
+    name: cloud-gateway
+  cloud:
+    gateway:
+      routes:
+        - id: course_route
+          uri: http://localhost:8001
+          predicates: # 复数形式
+            - Path=/**
+
+
+
+
+eureka:
+  instance:
+    hostname: cloud-gateway-service
+  client: #服务提供者provider注册进eureka服务列表内
+    service-url:
+      register-with-eureka: true
+      fetch-registry: true
+      defaultZone: http://localhost:7001/eureka
