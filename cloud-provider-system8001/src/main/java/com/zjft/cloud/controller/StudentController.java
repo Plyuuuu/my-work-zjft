@@ -5,6 +5,7 @@ import com.zjft.cloud.pojo.Student;
 import com.zjft.cloud.service.StudentService;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -200,6 +201,10 @@ public class StudentController {
 
     // ====================================================== 4、查 ====================================================
 
+    /**
+     * 1、查询所有学生信息
+     * @return
+     */
     @GetMapping(value = "/qryStudentAll")
     public CommonResult qryStudentAll(){
 
@@ -213,8 +218,13 @@ public class StudentController {
 
         return commonResult;
     }
-        
 
+
+    /**
+     * 2、通过学号查询
+     * @param id
+     * @return
+     */
     @GetMapping(value = "/qryStudentById")
     public CommonResult qryStudentById(@RequestParam("id") Integer id){
         CommonResult commonResult = new CommonResult();
@@ -255,13 +265,135 @@ public class StudentController {
         return commonResult;
     }
 
-
-
+    /**
+     * 3、通过学生名字查询
+     * @param name
+     * @return
+     */
+    @GetMapping(value = "/qryStudentByName")
     public CommonResult qryStudentByName(@RequestParam("name") String name){
         CommonResult commonResult = new CommonResult();
+        List<Student> res = null;
+
+        log.info("======================开始查询学生信息 name:[{}]=========================",name);
+
+        // 过滤不合法 name ，提高效率
+        if (StringUtils.isEmpty(name)){
+            // 不合法 name，直接返回错误信息
+            commonResult.setRetCode(444);
+            commonResult.setRetMsg("查询失败，name 不为空");
+        }else {
+            // 合法 name，查询数据库
+            try{
+                res = studentService.qryStudentByName(name);
+            }catch (Exception e){
+
+                log.info("查询学生信息出错:[{}]",e.getMessage());
+            }finally {
+                log.info("======================查询学生信息结束 name:[{}]=========================",name);
+                // 查询成功
+                if (res != null){
+                    commonResult.setRetCode(200);
+                    commonResult.setRetMsg("查询学生信息成功");
+                    commonResult.setData(res);
+                    // 查询出错
+                }else {
+                    commonResult.setRetCode(444);
+                    commonResult.setRetMsg("查询学生信息失败");
+                    commonResult.setData(res);
+                }
+            }
+
+        }
 
         return commonResult;
     }
+
+    /**
+     * 4、通过学生姓氏查询
+     * @param lastName
+     * @return
+     */
+    @GetMapping(value = "/qryStudentByLastName")
+    public CommonResult qryStudentByLastName(@RequestParam("lastName") String lastName){
+        CommonResult commonResult = new CommonResult();
+
+        List<Student> res = null;
+
+        log.info("======================开始查询学生信息 lastName:[{}]=========================",lastName);
+
+        // 未传入姓氏，就查询所有学生信息,传入就模糊查询
+        if (StringUtils.isEmpty(lastName)){
+            // 未传入姓氏，查询所有学生信息
+            return qryStudentAll();
+        }else {
+            // 传入了lastName，查询数据库
+            try{
+                res = studentService.qryStudentByLastName(lastName);
+            }catch (Exception e){
+
+                log.info("查询学生信息出错:[{}]",e.getMessage());
+            }finally {
+                log.info("======================查询学生信息结束 lastName:[{}]=========================",lastName);
+                // 查询成功
+                if (res != null){
+                    commonResult.setRetCode(200);
+                    commonResult.setRetMsg("查询学生信息成功");
+                    commonResult.setData(res);
+                    // 查询出错
+                }else {
+                    commonResult.setRetCode(444);
+                    commonResult.setRetMsg("查询学生信息失败");
+                    commonResult.setData(res);
+                }
+            }
+
+        }
+
+        return commonResult;
+    }
+
+    /**
+     * 5、通过学生性别查询
+     * @param sex
+     * @return
+     */
+    @GetMapping(value = "/qryStudentBySex")
+    public CommonResult qryStudentBySex(@RequestParam("sex") String sex){
+        CommonResult commonResult = new CommonResult();
+        List<Student> res = null;
+
+        log.info("======================开始查询学生信息 sex:[{}]=========================",sex);
+
+        // 未传入性别，就查询所有学生信息,传入就按性别查询
+        if (StringUtils.isEmpty(sex)){
+            // 未传入性别，查询所有学生信息
+            return qryStudentAll();
+        }else {
+            // 传入了sex，查询数据库
+            try{
+                res = studentService.qryStudentBySex(sex);
+            }catch (Exception e){
+
+                log.info("查询学生信息出错:[{}]",e.getMessage());
+            }finally {
+                log.info("======================查询学生信息结束 sex:[{}]=========================",sex);
+                // 查询成功
+                if (res != null){
+                    commonResult.setRetCode(200);
+                    commonResult.setRetMsg("查询学生信息成功");
+                    commonResult.setData(res);
+                    // 查询出错
+                }else {
+                    commonResult.setRetCode(444);
+                    commonResult.setRetMsg("查询学生信息失败");
+                    commonResult.setData(res);
+                }
+            }
+        }
+        return commonResult;
+    }
+
 
 
     /**

@@ -34,7 +34,32 @@
 
     <!--======================4、查=============================-->
 
+    <select id="qryStudentAll" resultMap="studentMap" >
+        select id,name,birthday,sex
+        from student;
+    </select>
 
+    <select id="qryStudentById" resultMap="studentMap">
+        select id,name,birthday,sex
+        from student
+        where id = #{id};
+    </select>
 
+    <select id="qryStudentByName" resultMap="studentMap">
+        select id,name,birthday,sex
+        from student
+        where name = #{name};
+    </select>
 
+    <select id="qryStudentByLastName" resultMap="studentMap">
+        select id,name,birthday,sex
+        from student
+        where name like concat(#{lastName},'%');
+    </select>
+
+    <select id="qryStudentBySex" resultMap="studentMap">
+        select id,name,birthday,sex
+        from student
+        where sex = #{sex};
+    </select>
 </mapper>

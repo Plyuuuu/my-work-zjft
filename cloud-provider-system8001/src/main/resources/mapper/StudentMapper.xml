@@ -54,7 +54,7 @@
     <select id="qryStudentByLastName" resultMap="studentMap">
         select id,name,birthday,sex
         from student
-        where name = #{lastName%};
+        where name like concat(#{lastName},'%');
     </select>
 
     <select id="qryStudentBySex" resultMap="studentMap">

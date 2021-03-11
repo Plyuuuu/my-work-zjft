@@ -19,6 +19,8 @@ spring:
 eureka:
   instance:
     hostname: cloud-gateway-service
+    instance-id: gateway9527 # 实例别名
+    prefer-ip-address: true # 显示 IP
   client: #服务提供者provider注册进eureka服务列表内
     service-url:
       register-with-eureka: true
