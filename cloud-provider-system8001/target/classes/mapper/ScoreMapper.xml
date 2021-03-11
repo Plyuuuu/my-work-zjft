@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zjft.cloud.dao.ScoreDao">
+
+    <!--=================自定义Course封装规则=====================-->
+    <resultMap id="scoreMapper" type="com.zjft.cloud.pojo.Score">
+        <id column="s_id" property="sId" jdbcType="INTEGER"/>
+        <id column="c_id" property="cId" jdbcType="INTEGER"/>
+        <result column="score" property="score" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--======================1、增=============================-->
+    <insert id="addScore" parameterType="java.util.Map" useGeneratedKeys="true" >
+        insert into score(s_id,c_id,score) values(#{sId},#{cId},#{score});
+    </insert>
+
+
+    <!--======================2、删=============================-->
+
+    <!--======================3、改=============================-->
+    <update id="modScore" parameterType="java.util.Map" useGeneratedKeys="true" >
+        update score set score = #{score} where s_id = #{sId} and c_id = #{cId};
+    </update>
+
+
+    <!--======================4、查=============================-->
+
+</mapper>
